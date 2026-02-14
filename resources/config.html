@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IllY Configuration</title>
+    <link rel="stylesheet" href="/config.css">
+</head>
+<body>
+    <div class="config-container">
+        <header>
+            <h1>🤖 IllY Configuration</h1>
+            <p>Configure your voice assistant settings</p>
+        </header>
+
+        <form id="config-form">
+            <!-- PicoVoice Configuration -->
+            <section class="config-section">
+                <h2>🎤 Wake Word Detection</h2>
+                <div class="form-group">
+                    <label for="picovoice-key">PicoVoice Access Key:</label>
+                    <div class="input-group">
+                        <input type="password" id="picovoice-key" name="picovoice-key" 
+                               placeholder="Enter your PicoVoice API key" required>
+                        <button type="button" class="btn-icon" onclick="togglePassword('picovoice-key')" title="Toggle visibility">
+                            <span class="icon">👁️</span>
+                        </button>
+                    </div>
+                    <small>Get your free API key from <a href="https://console.picovoice.ai/" target="_blank">PicoVoice Console</a></small>
+                </div>
+            </section>
+
+            <!-- AI Model Configuration -->
+            <section class="config-section">
+                <h2>🤖 AI Model Configuration</h2>
+                <div class="form-group">
+                    <label for="model-path">AI Model File (GGUF):</label>
+                    <div class="input-group">
+                        <select id="model-path" name="model-path">
+                            <option value="">Select a model...</option>
+                            <option value="custom">Custom Model...</option>
+                        </select>
+                        <button type="button" class="btn-icon" onclick="browseFiles()" title="Browse for AI model file">
+                            <span class="icon">📁</span>
+                        </button>
+                    </div>
+                    <input type="file" id="file-input" accept=".gguf" style="display: none;">
+                    <div id="model-info" class="model-info" style="display: none;">
+                        <strong>Selected AI Model:</strong> <span id="selected-file"></span>
+                    </div>
+                    <small>Select your own GGUF format AI model file (no free models included)</small>
+                </div>
+            </section>
+
+            <!-- TTS Configuration -->
+            <section class="config-section">
+                <h2>🔊 Text-to-Speech Configuration</h2>
+                <div class="form-group">
+                    <label for="tts-engine">TTS Engine:</label>
+                    <select id="tts-engine" name="tts-engine">
+                        <option value="piper">Piper (Local)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tts-model">TTS Model File (ONNX):</label>
+                    <div class="input-group">
+                        <select id="tts-model" name="tts-model">
+                            <option value="">Select a TTS model...</option>
+                            <option value="custom">Custom TTS Model...</option>
+                        </select>
+                        <button type="button" class="btn-icon" onclick="browseTTSFiles()" title="Browse for TTS model file">
+                            <span class="icon">📁</span>
+                        </button>
+                    </div>
+                    <input type="file" id="tts-file-input" accept=".onnx" style="display: none;">
+                    <div id="tts-model-info" class="model-info" style="display: none;">
+                        <strong>Selected TTS Model:</strong> <span id="selected-tts-file"></span>
+                    </div>
+                    <small>Select your own ONNX format TTS model file (no free models included)</small>
+                </div>
+            </section>
+
+            <!-- General Settings -->
+            <section class="config-section">
+                <h2>🎛️ General Settings</h2>
+                <div class="form-group">
+                    <label for="listen-timeout">Listen Timeout (seconds):</label>
+                    <input type="range" id="listen-timeout" name="listen-timeout" min="3" max="30" value="5" class="range-input">
+                    <div class="range-value">
+                        <span id="listen-timeout-value">5</span>s
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inactivity-timeout">Inactivity Timeout (seconds):</label>
+                    <input type="range" id="inactivity-timeout" name="inactivity-timeout" min="10" max="300" value="30" class="range-input">
+                    <div class="range-value">
+                        <span id="inactivity-timeout-value">30</span>s
+                    </div>
+                </div>
+            </section>
+
+            <!-- Actions -->
+            <section class="config-actions">
+                <button type="submit" class="btn btn-primary">💾 Save Configuration</button>
+                <button type="button" class="btn btn-secondary" onclick="testConfig()">🧪 Test Configuration</button>
+                <button type="button" class="btn btn-danger" onclick="resetConfig()">🔄 Reset to Defaults</button>
+            </section>
+        </form>
+
+        <!-- Status Messages -->
+        <div id="status-container">
+            <div id="status-message" class="status-message"></div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay" style="display: none;">
+            <div class="spinner"></div>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <script src="/config.js"></script>
+</body>
+</html>
