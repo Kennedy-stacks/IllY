@@ -1,0 +1,83 @@
+#!/bin/bash
+
+# IllY Main Application Launcher
+# This script launches the main IllY voice assistant
+
+ILLY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV_DIR="$ILLY_DIR/.IllY"
+VENV_ACTIVATED=false
+
+echo "🤖 Starting IllY Voice Assistant..."
+
+# Check if Python 3 is available
+if ! command -v python3 &> /dev/null; then
+    echo "❌ Error: Python 3 is required for IllY"
+    exit 1
+fi
+
+# Check if virtual environment exists
+if [ ! -d "$VENV_DIR" ]; then
+    echo "❌ Error: Virtual environment not found. Please run './illy-config' first to set up IllY."
+    exit 1
+fi
+
+# Activate virtual environment
+if [ -f "$VENV_DIR/bin/activate" ]; then
+    source "$VENV_DIR/bin/activate"
+    VENV_ACTIVATED=true
+    echo "🔌 Virtual environment activated"
+elif [ -f "$VENV_DIR/Scripts/activate" ]; then
+    # Windows fallback
+    source "$VENV_DIR/Scripts/activate"
+    VENV_ACTIVATED=true
+    echo "🔌 Virtual environment activated (Windows)"
+else
+    echo "❌ Error: Could not activate virtual environment"
+    exit 1
+fi
+
+# Check if we're in the virtual environment
+if [ "$VENV_ACTIVATED" = false ]; then
+    echo "❌ Error: Failed to activate virtual environment"
+    exit 1
+fi
+
+# Check if configuration exists
+if [ ! -f "$ILLY_DIR/config.json" ]; then
+    echo "⚠️  Configuration not found. Please run './illy-config' first to configure IllY."
+    exit 1
+fi
+
+# Check if PicoVoice API key is configured
+if ! grep -q '"accessKey": "[^"]*[^[:space:]]' "$ILLY_DIR/config.json" 2>/dev/null; then
+    echo "⚠️  PicoVoice API key not configured. Please run './illy-config' to set up your API key."
+    exit 1
+fi
+
+# Load configuration and set environment variables
+if [ -f "$ILLY_DIR/.env" ]; then
+    export $(grep -v '^#' "$ILLY_DIR/.env" | xargs)
+fi
+
+# Temporarily switch to main app URL
+sed -i 's/"url": "\/config.html"/"url": "\/"/' "$ILLY_DIR/neutralino.config.json"
+
+echo "🎤 Wake word detection activated..."
+echo "💭 Say 'Hey Illy' to start interacting"
+echo "🛑 Press Ctrl+C to stop"
+echo ""
+
+# Start the wake word detection
+cd "$ILLY_DIR"
+
+# Check if we're in venv by looking at Python path
+if ! python -c "import sys; exit(0 if hasattr(sys, 'real_prefix') or (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix) else 1)" 2>/dev/null; then
+    echo "❌ Error: Not running in virtual environment"
+    exit 1
+fi
+
+# Start the wake word detection with Python from venv
+node wake-word.js
+
+# Restore config URL on exit
+sed -i 's/"url": "\/"/"url": "\/config.html"/' "$ILLY_DIR/neutralino.config.json"
