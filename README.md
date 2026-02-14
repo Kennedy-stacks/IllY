@@ -1,0 +1,24 @@
+# IllY
+IllY is an AI created to make simple tasks easier with voice commands. All you need to do is say "Hey, IllY".
+
+## Contributors
+
+[![Contributors](https://contrib.rocks/image?repo=neutralinojs/neutralinojs-minimal)](https://github.com/neutralinojs/neutralinojs-minimal/graphs/contributors)
+
+## Speech-to-text (STT)
+
+After "Hey Illy", the app transcribes what you say using **Vosk** via a Python script (`stt-vosk.py`). You need:
+
+- **Python 3** with **vosk** installed:
+  ```bash
+  pip install -r requirements.txt
+  ```
+  or `pip install vosk`
+
+## License
+
+[MIT](LICENSE)
+
+## Icon credits
+
+- `trayIcon.png` - Made by [Freepik](https://www.freepik.com) and downloaded from [Flaticon](https://www.flaticon.com)

@@ -1,0 +1,60 @@
+# Developer tools' files
+.lite_workspace.lua
+
+# Virtual environments
+.venv/
+.IllY/
+venv/
+env/
+
+# Configuration files (contains user API keys and paths)
+config.json
+.env
+
+# Logs
+*.log
+
+# Neutralinojs binaries and builds
+/bin
+/dist
+
+# Neutralinojs client (minified)
+neutralino.js
+
+# Neutralinojs related files
+.storage
+
+# Model files (user-provided, no free AI included)
+*.gguf
+*.onnx
+*.pth
+*.pt
+*.bin
+*.safetensors
+
+# Vosk speech recognition model
+vosk-model-*/
+
+# Node modules
+node_modules/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+.cache/

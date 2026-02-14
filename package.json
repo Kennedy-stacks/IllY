@@ -1,0 +1,15 @@
+{
+  "name": "illy",
+  "version": "1.0.0",
+  "description": "Wake word: Hey Illy",
+  "main": "wake-word.js",
+  "scripts": {
+    "start": "node wake-word.js",
+    "wake": "node wake-word.js"
+  },
+  "dependencies": {
+    "@picovoice/porcupine-node": "^4.0.1",
+    "@picovoice/pvrecorder-node": "^1.2.8",
+    "text-to-speech-js": "^1.1.11"
+  }
+}

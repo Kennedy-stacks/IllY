@@ -1,0 +1,10 @@
+# For stt-vosk.py (speech-to-text via Vosk)
+vosk>=0.3.45
+
+# For TinyLlama integration
+llama-cpp-python
+
+# Additional dependencies for configuration GUI
+pyaudio>=0.2.11
+numpy>=1.21.0
+piper-tts>=1.2.0
